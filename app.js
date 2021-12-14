@@ -36,10 +36,10 @@ function HandleBarcodeData(data) {
             LogOut();
         }
 
-        return;
+    } else {
+        // Log it to inventory
+        ToggleInventoryItem(data);
     }
-
-    // Otherwise log to inventory
 
     FocusInput(); // Alway refocus the input
 } 
@@ -62,6 +62,8 @@ async function StartUpScanner() {
 }
 
 function LoadData() {
+    PullInventory();
+
     ReadJsonData("/server/userdata.json", (data) => {
         SaveUserData(data);
         StartUpScanner();
