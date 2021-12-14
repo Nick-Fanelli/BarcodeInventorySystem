@@ -1,3 +1,7 @@
+function DebugPrint(message) {
+    console.log(message);
+}
+
 function ReadJsonData(filepath, functionPtr) {
     var request = new XMLHttpRequest();
     request.overrideMimeType("application/json");

@@ -5,12 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bravenator Inventory System</title>
+
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    
-    <h2 id="user-name"></h2>
 
+    <header>   
+        <h2 id="user-name"></h2>
+    </header>
+
+    <main>
+
+    </main>
+
+    <div id="centered-container">
+        <section id="message-box" class="hidden">
+            <h1 id="message"></h1>
+        </section>
+    </div>
+
+    <div id="hidden-input">
+        <input type="text" name="" placeholder="Input Here" id="input" onkeypress="KeyPress(event);">
+    </div>
+    
     <script src="utils.js"></script>
+    <script src="message.js"></script>
+    <script src="input.js"></script>
     <script src="context.js"></script>
     <script src="app.js"></script>
 

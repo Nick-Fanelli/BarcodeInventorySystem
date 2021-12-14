@@ -49,10 +49,18 @@ function SaveUserData(userData) {
 }
 
 function SetContext(context) {
+    if(context == null) {
+        CurrentContext = null;
+        UserNameElement.innerHTML = "";
+        return;
+    }
+
     CurrentContext = context;
 
     // Update user
     UserNameElement.innerHTML = context.user.name;
+
+    DebugPrint(`Setting Context To User Name: ${context.user.name}`);
 }
 
 function LoadUser(id) {
@@ -60,7 +68,13 @@ function LoadUser(id) {
 
     if(user == null) {
         console.error(`Unknown User: ${id}`);
+    } else {
+        DebugPrint(`Found user ${id}`);
     }
 
     SetContext(new Context(user));
+}
+
+function UnloadUser() {
+    SetContext(null);
 }
