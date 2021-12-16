@@ -64,7 +64,7 @@ async function StartUpScanner() {
 function LoadData() {
     PullInventory();
 
-    ReadJsonData("/server/userdata.json", (data) => {
+    ReadJsonData("server/userdata.json", (data) => {
         SaveUserData(data);
         StartUpScanner();
     });    
