@@ -64,7 +64,7 @@ function HandleBarcodeData(data) {
 
 async function StartUpScanner() {
     LogOut();
-    LogIn("45563");
+    // LogIn("45563");
     FocusInput();
 
     BindInputCallback(HandleBarcodeData);
