@@ -40,7 +40,7 @@ function HandleBarcodeData(data) {
             return;
         }
 
-        if(CurrentContext.user.id <= 1) {
+        if(CurrentContext.user.level <= 1) {
             // TODO: Push Error
             console.log("You do not have permission to update the inventory system!");
             return;
