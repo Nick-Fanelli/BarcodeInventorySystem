@@ -60,13 +60,13 @@ header {
     height: 4em;
     background-color: #333333;
     display: flex;
-    justify-content: end;
+    justify-content: flex-start;
     align-items: center;
 }
 
 header #user-name {
-    float: right;
-    padding: 0 2em 0 0;
+    float: left;
+    padding: 0 0 0 2em;
     font-family: "Roboto";
     font-weight: 100;
     color: #ffffff;
@@ -83,14 +83,23 @@ main h2 {
 }
 
 main #user-list {
-    float: right;
-    margin: 0 1.25em 0 0;
+    position: absolute;
+    top: 6em;
+    height: 50vh;
+    right: 2em;
     max-height: 90vh;
+    margin: 0;
+}
+
+main #user-list ul {
+    margin: 0;
 }
 
 main #user-list ul li#header {
-    border-bottom: solid 2px #222222;
+    background-color: #007BFF;
+    border-radius: 6px 6px 0 0;
     font-size: 1.5rem;
+    padding: 0.5em 0;
 }
 
 main #user-list ul li {
@@ -103,6 +112,10 @@ main #user-list ul li {
     text-align: center;
 }
 
+main #user-list ul li:last-child {
+    border-radius: 0 0 6px 6px;
+}
+
 main #user-list ul li.l3 {
     color: green;
 }
@@ -110,3 +123,121 @@ main #user-list ul li.l3 {
 main #user-list ul li.l2 {
     color: blue;
 }
+
+main table {
+    position: absolute;
+    top: 6em;
+    border-spacing: 1;
+    border-collapse: collapse;
+    background: #333333;
+    border-radius: 6px;
+    overflow: auto;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto 0 auto;
+    color: white;
+    font-family: "Roboto";
+}
+
+main table * {
+    position: relative;
+}
+
+main table td, main table th {
+    padding-left: 8px;
+}
+
+main table th:first-child {
+    border-radius: 6px 0 0 0;
+}
+
+main table th:last-child {
+    border-radius: 0 6px 0 0;
+}
+
+main table thead tr {
+    height: 60px;
+    background: #007BFF;
+    font-size: 18px;
+}
+
+main table tbody tr {
+    height: 48px;
+    border-bottom: 1px solid #222222;
+}
+
+main table tbody tr:last-child {
+    border: 0;
+}
+
+main table td, main table th {
+    text-align: left;
+}
+
+main table td.l, main table th.l {
+    text-align: right;
+}
+
+main table td.c, main table th.c {
+    text-align: center;
+}
+
+main table td.r, main table th.r {
+    text-align: center;
+}
+  
+  @media screen and (max-width: 35.5em) {
+    main table {
+      display: block;
+    }
+
+    main table > *, main table tr, main table td, main table th {
+      display: block;
+    }
+    
+    main table thead {
+      display: none;
+    }
+
+    main table tbody tr {
+      height: auto;
+      padding: 8px 0;
+    }
+
+    main table tbody tr td {
+      padding-left: 45%;
+      margin-bottom: 12px;
+    }
+
+    main table tbody tr td:last-child {
+      margin-bottom: 0;
+    }
+
+    main table tbody tr td:before {
+      position: absolute;
+      font-weight: 700;
+      width: 40%;
+      left: 10px;
+      top: 0;
+    }
+
+    main table tbody tr td:nth-child(1):before {
+      content: "Item";
+    }
+
+    main table tbody tr td:nth-child(2):before {
+      content: "Barcode";
+    }
+
+    main table tbody tr td:nth-child(3):before {
+      content: "SKU";
+    }
+
+    main table tbody tr td:nth-child(4):before {
+      content: "Location";
+    }
+
+    main table tbody tr td:nth-child(5):before {
+      content: "Quantitiy";
+    }
+  }

@@ -46,8 +46,14 @@ function HandleBarcodeData(data) {
             return;
         }
 
-        const main = document.querySelector("main");
-        main.innerHTML += `<h2>${data}</h2>`;
+        const tableBody = document.querySelector("main table tbody");
+        tableBody.innerHTML += `<tr>
+            <td>${data}</td>
+            <td>${data}</td>
+            <td>${data}</td>
+            <td>1-3</td>
+            <td>1</td>
+        </tr>`;
 
         // ToggleInventoryItem(data);
     }
@@ -74,8 +80,6 @@ async function StartUpScanner() {
 }
 
 function LoadData() {
-    PullInventory();
-
     ReadJsonData("server/userdata.json", (data) => {
         SaveUserData(data);
         StartUpScanner();
