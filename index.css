@@ -4,6 +4,7 @@ html, body {
     margin: 0;
     box-sizing: border-box;
     background-color: #444444;
+    overflow: hidden;
 }
 
 .hidden { display: none !important; }
@@ -38,6 +39,10 @@ html, body {
     color: white;
 }
 
+#message-box #message.error-msg {
+    color: red !important;
+}
+
 #centered-container {
     position: absolute;
     width: 100vw;
@@ -66,4 +71,42 @@ header #user-name {
     font-weight: 100;
     color: #ffffff;
     margin: 0;
+}
+
+main {
+    margin: 4.5em 0 0 2em; /* 0.5em top padding */
+}
+
+main h2 {
+    color: white;
+    font-family: "Roboto";
+}
+
+main #user-list {
+    float: right;
+    margin: 0 1.25em 0 0;
+    max-height: 90vh;
+}
+
+main #user-list ul li#header {
+    border-bottom: solid 2px #222222;
+    font-size: 1.5rem;
+}
+
+main #user-list ul li {
+    font-size: 1.2rem;
+    color: white;
+    list-style: none;
+    font-family: "Roboto";
+    background-color: #333333;
+    padding: 0.25em 3em;
+    text-align: center;
+}
+
+main #user-list ul li.l3 {
+    color: green;
+}
+
+main #user-list ul li.l2 {
+    color: blue;
 }

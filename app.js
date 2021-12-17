@@ -10,10 +10,6 @@ function LogOut() {
     DisplayMessage("Please Scan Your ID To Log In");
 }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 function HandleBarcodeData(data) {
 
     if(data === "")
@@ -38,7 +34,22 @@ function HandleBarcodeData(data) {
 
     } else {
         // Log it to inventory
-        ToggleInventoryItem(data);
+
+        if(CurrentContext == null) {
+            PushError("You Must Sign In Before Updating The Inventory System!");
+            return;
+        }
+
+        if(CurrentContext.user.id <= 1) {
+            // TODO: Push Error
+            console.log("You do not have permission to update the inventory system!");
+            return;
+        }
+
+        const main = document.querySelector("main");
+        main.innerHTML += `<h2>${data}</h2>`;
+
+        // ToggleInventoryItem(data);
     }
 
     FocusInput(); // Alway refocus the input
@@ -47,6 +58,7 @@ function HandleBarcodeData(data) {
 
 async function StartUpScanner() {
     LogOut();
+    LogIn("45563");
     FocusInput();
 
     BindInputCallback(HandleBarcodeData);

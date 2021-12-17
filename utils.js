@@ -1,5 +1,11 @@
+const ErrorSound = new Audio("sounds/error-sound.wav");
+
 function DebugPrint(message) {
     console.log(message);
+}
+
+function DebugError(errorMsg) {
+    console.error(errorMsg);
 }
 
 function ReadJsonData(filepath, functionPtr) {
@@ -13,4 +19,12 @@ function ReadJsonData(filepath, functionPtr) {
     };
 
     request.send(null);
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function PlayErrorSound() {
+    ErrorSound.play();
 }

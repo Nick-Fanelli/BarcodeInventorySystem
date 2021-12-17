@@ -1,5 +1,6 @@
 // Constant Elements
 const UserNameElement = document.getElementById("user-name");
+const Main = document.querySelector("main");
 
 class User {
 
@@ -48,10 +49,63 @@ function SaveUserData(userData) {
 
 }
 
+function UpdateUserList() {
+
+    const UserList = document.querySelector("main #user-list ul");
+
+    UserList.innerHTML = "<li id='header'>User List</li>";
+
+    for(let i in UserPool) {
+        let user = UserPool[i];
+
+        UserList.innerHTML += `<li class="${(user.level == 3) ? 'l3' : (user.level == 2) ? 'l2' : ''}">${user.name}</li>`;
+    }
+
+}
+
+function ClearLogInData() {
+    Main.classList.add("hidden");
+
+    // Hide All Level 2 and 3
+    let levelItems = document.querySelectorAll("main .level-3,.level-2");
+
+    for(let i in levelItems) {
+        if(levelItems[i].classList != undefined) {
+            levelItems[i].classList.add("hidden");
+        }
+    }
+}
+
+function ContextUpdateCallback() {
+
+    ClearLogInData();
+        
+    // Log In User
+    if(CurrentContext == null)
+        return;
+
+    Main.classList.remove("hidden");
+
+    if(CurrentContext.user.level >= 3) {
+        let level3Items = document.querySelectorAll("main .level-3");
+
+        for(let i in level3Items) {
+            if(level3Items[i].classList != undefined)
+                level3Items[i].classList.remove("hidden");
+        }
+
+        UpdateUserList();
+    }
+    
+}
+
 function SetContext(context) {
     if(context == null) {
         CurrentContext = null;
         UserNameElement.innerHTML = "";
+
+        ContextUpdateCallback();
+
         return;
     }
 
@@ -61,6 +115,8 @@ function SetContext(context) {
     UserNameElement.innerHTML = context.user.name;
 
     DebugPrint(`Setting Context To User Name: ${context.user.name}`);
+
+    ContextUpdateCallback();
 }
 
 function LoadUser(id) {
