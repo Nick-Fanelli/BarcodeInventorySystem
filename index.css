@@ -85,7 +85,7 @@ main h2 {
 main #user-list {
     position: absolute;
     top: 6em;
-    height: 50vh;
+    height: 85vh;
     right: 2em;
     max-height: 90vh;
     margin: 0;
@@ -93,6 +93,8 @@ main #user-list {
 
 main #user-list ul {
     margin: 0;
+    height: 100%;
+    overflow-y: auto; 
 }
 
 main #user-list ul li#header {

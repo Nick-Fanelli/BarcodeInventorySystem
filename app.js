@@ -35,11 +35,13 @@ function HandleBarcodeData(data) {
     } else {
         // Log it to inventory
 
+        // Make sure someone's signed in
         if(CurrentContext == null) {
             PushError("You Must Sign In Before Updating The Inventory System!");
             return;
         }
 
+        // Make sure the signed in user is allowed to modify the inventory
         if(CurrentContext.user.level <= 1) {
             // TODO: Push Error
             console.log("You do not have permission to update the inventory system!");
