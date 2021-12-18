@@ -60,13 +60,16 @@ header {
     height: 4em;
     background-color: #333333;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
 }
 
-header #user-name {
+header.mode-add { background-color: green !important; }
+header.mode-remove { background-color: red !important; }
+
+header h2 {
     float: left;
-    padding: 0 0 0 2em;
+    padding: 0 2em;
     font-family: "Roboto";
     font-weight: 100;
     color: #ffffff;
@@ -188,58 +191,58 @@ main table td.r, main table th.r {
     text-align: center;
 }
   
-  @media screen and (max-width: 35.5em) {
+@media screen and (max-width: 35.5em) {
     main table {
-      display: block;
+        display: block;
     }
 
     main table > *, main table tr, main table td, main table th {
-      display: block;
+        display: block;
     }
-    
+
     main table thead {
-      display: none;
+        display: none;
     }
 
     main table tbody tr {
-      height: auto;
-      padding: 8px 0;
+        height: auto;
+        padding: 8px 0;
     }
 
     main table tbody tr td {
-      padding-left: 45%;
-      margin-bottom: 12px;
+        padding-left: 45%;
+        margin-bottom: 12px;
     }
 
     main table tbody tr td:last-child {
-      margin-bottom: 0;
+        margin-bottom: 0;
     }
 
     main table tbody tr td:before {
-      position: absolute;
-      font-weight: 700;
-      width: 40%;
-      left: 10px;
-      top: 0;
+        position: absolute;
+        font-weight: 700;
+        width: 40%;
+        left: 10px;
+        top: 0;
     }
 
     main table tbody tr td:nth-child(1):before {
-      content: "Item";
+        content: "Item";
     }
 
     main table tbody tr td:nth-child(2):before {
-      content: "Barcode";
+        content: "Barcode";
     }
 
     main table tbody tr td:nth-child(3):before {
-      content: "SKU";
+        content: "SKU";
     }
 
     main table tbody tr td:nth-child(4):before {
-      content: "Location";
+        content: "Location";
     }
 
     main table tbody tr td:nth-child(5):before {
-      content: "Quantitiy";
+        content: "Quantitiy";
     }
-  }
+}

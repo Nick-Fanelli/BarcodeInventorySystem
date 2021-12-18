@@ -16,7 +16,7 @@ function DisplayMessage(message) {
 }
 
 async function PushError(errorMsg) {
-    PlayErrorSound();
+    PlaySound(ErrorSound);
 
     DebugError(errorMsg);
 

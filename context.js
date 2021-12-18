@@ -1,6 +1,14 @@
+// Constant
+const MODE_ADD = "MODE_ADD";
+const MODE_REMOVE = "MODE_REMOVE";
+
 // Constant Elements
 const UserNameElement = document.getElementById("user-name");
 const Main = document.querySelector("main");
+const Header = document.querySelector("header");
+const InventoryModeStatusH2 = document.querySelector("header #inventory-mode-status");
+
+var CurrentMode = MODE_REMOVE;
 
 class User {
 
@@ -22,6 +30,26 @@ class Context {
 
 let CurrentContext = null;
 let UserPool = [];
+
+function SetInventoryMode(mode) {
+    if(mode !== MODE_ADD && mode !== MODE_REMOVE) {
+        console.log(`Can not set the inventory mode to '${mode}'!`);
+        return;
+    }
+
+    CurrentMode = mode;
+
+    // Update Inventory
+    if(CurrentMode == MODE_ADD) {
+        Header.classList.remove("mode-remove");
+        Header.classList.add("mode-add");
+        InventoryModeStatusH2.innerHTML = "ADD MODE";
+    } else {
+        Header.classList.remove("mode-add");
+        Header.classList.add("mode-remove");
+        InventoryModeStatusH2.innerHTML = "REMOVE MODE";
+    }
+}
 
 function LookupUserByID(id) {
     for(let i in UserPool) {
@@ -74,16 +102,14 @@ function ClearLogInData() {
             levelItems[i].classList.add("hidden");
         }
     }
+
+    // Clear the inventory mode
+    Header.classList.remove("mode-add");
+    Header.classList.remove("mode-remove");
+    InventoryModeStatusH2.innerHTML = "";
 }
 
-function ContextUpdateCallback() {
-
-    ClearLogInData();
-        
-    // Log In User
-    if(CurrentContext == null)
-        return;
-
+function OnLogin() {
     Main.classList.remove("hidden");
 
     if(CurrentContext.user.level >= 3) {
@@ -96,7 +122,18 @@ function ContextUpdateCallback() {
 
         UpdateUserList();
     }
-    
+
+    // Set the inventory mode
+    // TODO: Set to mode remove
+    SetInventoryMode(MODE_REMOVE);
+}
+
+function ContextUpdateCallback() {
+    ClearLogInData();
+
+    if(CurrentContext != null) {
+        OnLogin();
+    }
 }
 
 function SetContext(context) {

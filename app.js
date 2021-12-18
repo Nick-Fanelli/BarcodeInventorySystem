@@ -32,32 +32,46 @@ function HandleBarcodeData(data) {
             LogOut();
         }
 
+        FocusInput();
+
+        return;
+
+    }
+
+    // Make sure someone's signed in
+    if(CurrentContext == null) {
+        PushError("You Must Sign In Before Updating The Inventory System!");
+        FocusInput();
+        return;
+    }
+
+    // Make sure the signed in user is allowed to modify the inventory
+    if(CurrentContext.user.level <= 1) {
+        // TODO: Push Error
+        PushError("You do not have permission to update the inventory system!");
+        FocusInput();
+        return;
+    }
+
+    // Check for add or remove special barcode
+    if(data === "#MODE_ADD#") {
+        // Set Mode To Add
+        DebugPrint("Setting Inventory Mode To: Add");
+        SetInventoryMode(MODE_ADD);
+        FocusInput();
+        return;
+    } else if(data === "#MODE_REMOVE#") {
+        // Set Mode To Remove
+        console.log("Setting Inventory Mode To: Remove");
+        SetInventoryMode(MODE_REMOVE);
+        FocusInput();
+        return;
+    }
+
+    if(CurrentMode == MODE_ADD) {
+        AddItemToInventory(data);
     } else {
-        // Log it to inventory
-
-        // Make sure someone's signed in
-        if(CurrentContext == null) {
-            PushError("You Must Sign In Before Updating The Inventory System!");
-            return;
-        }
-
-        // Make sure the signed in user is allowed to modify the inventory
-        if(CurrentContext.user.level <= 1) {
-            // TODO: Push Error
-            console.log("You do not have permission to update the inventory system!");
-            return;
-        }
-
-        const tableBody = document.querySelector("main table tbody");
-        tableBody.innerHTML += `<tr>
-            <td>${data}</td>
-            <td>${data}</td>
-            <td>${data}</td>
-            <td>1-3</td>
-            <td>1</td>
-        </tr>`;
-
-        // ToggleInventoryItem(data);
+        RemoveItemFromInventory(data);
     }
 
     FocusInput(); // Alway refocus the input
@@ -66,7 +80,7 @@ function HandleBarcodeData(data) {
 
 async function StartUpScanner() {
     LogOut();
-    // LogIn("45563");
+    LogIn("45563");
     FocusInput();
 
     BindInputCallback(HandleBarcodeData);
