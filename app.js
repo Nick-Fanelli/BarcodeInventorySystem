@@ -69,9 +69,9 @@ function HandleBarcodeData(data) {
     }
 
     if(CurrentMode == MODE_ADD) {
-        AddItemToInventory(data);
+        Inventory.AddItem(data);
     } else {
-        RemoveItemFromInventory(data);
+        Inventory.RemoveItem(data);
     }
 
     InputManager.FocusInput(); // Alway refocus the input
