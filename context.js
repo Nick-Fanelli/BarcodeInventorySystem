@@ -8,8 +8,6 @@ const Main = document.querySelector("main");
 const Header = document.querySelector("header");
 const InventoryModeStatusH2 = document.querySelector("header #inventory-mode-status");
 
-var CurrentMode = MODE_REMOVE;
-
 class User {
 
     constructor(name, id, level) {
@@ -28,150 +26,155 @@ class Context {
 
 }
 
-let CurrentContext = null;
-let UserPool = [];
+class ContextManager {
 
-function SetInventoryMode(mode) {
-    if(mode !== MODE_ADD && mode !== MODE_REMOVE) {
-        console.log(`Can not set the inventory mode to '${mode}'!`);
-        return;
+    static currentContext = null;
+    static userPool = [];
+
+    static #currentMode = MODE_REMOVE;
+
+    static SetInventoryMode = function(mode) {
+        if(mode !== MODE_ADD && mode !== MODE_REMOVE) {
+            console.log(`Can not set the inventory mode to '${mode}'!`);
+            return;
+        }
+    
+        this.#currentMode = mode;
+    
+        // Update Inventory
+        if(this.#currentMode == MODE_ADD) {
+            Header.classList.remove("mode-remove");
+            Header.classList.add("mode-add");
+            InventoryModeStatusH2.innerHTML = "ADD MODE";
+        } else {
+            Header.classList.remove("mode-add");
+            Header.classList.add("mode-remove");
+            InventoryModeStatusH2.innerHTML = "REMOVE MODE";
+        }
     }
 
-    CurrentMode = mode;
+    static GetCurrentMode = function() { return this.#currentMode; }
+    static GetCurrentContext = function() { return this.currentContext; }
 
-    // Update Inventory
-    if(CurrentMode == MODE_ADD) {
-        Header.classList.remove("mode-remove");
-        Header.classList.add("mode-add");
-        InventoryModeStatusH2.innerHTML = "ADD MODE";
-    } else {
+    static ToggleInventoryMode = function() {
+        this.SetInventoryMode(this.GetCurrentMode() == MODE_ADD ? MODE_REMOVE : MODE_ADD);
+    }
+
+    static LookupUserByID(id) {
+        for(let i in this.userPool) {
+            let user = this.userPool[i];
+            
+            if(user.id === id) {
+                return user;
+            }
+        }
+    
+        return null;
+    }
+
+    static SaveUserData = function(userData) {
+        for(let user in userData) {
+            let userID = userData[user][0];
+            let userLevel = userData[user][1];
+    
+            // Test Code
+            // console.log(`User -> '${user}', ${userID}, ${userLevel}`);
+    
+            this.userPool.push(new User(user, userID, userLevel));
+        }
+    
+    }
+
+    static UpdateUserList = function() {
+        const UserList = document.querySelector("main #user-list ul");
+
+        UserList.innerHTML = "<li id='header'>User List</li>";
+    
+        for(let i in this.userPool) {
+            let user = this.userPool[i];
+    
+            UserList.innerHTML += `<li class="${(user.level == 3) ? 'l3' : (user.level == 2) ? 'l2' : ''}">${user.name}</li>`;
+        }
+    }
+
+    static ClearLogInData = function() {
+        Main.classList.add("hidden");
+
+        // Hide All Level 2 and 3
+        let levelItems = document.querySelectorAll("main .level-3,.level-2");
+    
+        for(let i in levelItems) {
+            if(levelItems[i].classList != undefined) {
+                levelItems[i].classList.add("hidden");
+            }
+        }
+    
+        // Clear the inventory mode
         Header.classList.remove("mode-add");
-        Header.classList.add("mode-remove");
-        InventoryModeStatusH2.innerHTML = "REMOVE MODE";
+        Header.classList.remove("mode-remove");
+        InventoryModeStatusH2.innerHTML = "";
     }
-}
 
-function ToggleInventoryMode() {
-    SetInventoryMode(CurrentMode == MODE_ADD ? MODE_REMOVE : MODE_ADD);
-}
+    static OnLogin = function() {
+        Main.classList.remove("hidden");
 
-function LookupUserByID(id) {
-    for(let i in UserPool) {
-        let user = UserPool[i];
-        
-        if(user.id === id) {
-            return user;
+        if(this.currentContext.user.level >= 3) {
+            let level3Items = document.querySelectorAll("main .level-3");
+    
+            for(let i in level3Items) {
+                if(level3Items[i].classList != undefined)
+                    level3Items[i].classList.remove("hidden");
+            }
+    
+            this.UpdateUserList();
+        }
+    
+        // Set the inventory mode
+        this.SetInventoryMode(MODE_REMOVE);
+    }
+
+    static ContextUpdateCallback = function() {
+        this.ClearLogInData();
+
+        if(this.currentContext != null) {
+            this.OnLogin();
         }
     }
-
-    return null;
-}
-
-function SaveUserData(userData) {
-
-    for(let user in userData) {
-        let userID = userData[user][0];
-        let userLevel = userData[user][1];
-
-        // Test Code
-        // console.log(`User -> '${user}', ${userID}, ${userLevel}`);
-
-        UserPool.push(new User(user, userID, userLevel));
-    }
-
-}
-
-function UpdateUserList() {
-
-    const UserList = document.querySelector("main #user-list ul");
-
-    UserList.innerHTML = "<li id='header'>User List</li>";
-
-    for(let i in UserPool) {
-        let user = UserPool[i];
-
-        UserList.innerHTML += `<li class="${(user.level == 3) ? 'l3' : (user.level == 2) ? 'l2' : ''}">${user.name}</li>`;
-    }
-
-}
-
-function ClearLogInData() {
-    Main.classList.add("hidden");
-
-    // Hide All Level 2 and 3
-    let levelItems = document.querySelectorAll("main .level-3,.level-2");
-
-    for(let i in levelItems) {
-        if(levelItems[i].classList != undefined) {
-            levelItems[i].classList.add("hidden");
+    
+    static SetContext = function(context) {
+        if(context == null) {
+            this.currentContext = null;
+            UserNameElement.innerHTML = "";
+    
+            this.ContextUpdateCallback();
+    
+            return;
         }
+    
+        this.currentContext = context;
+    
+        // Update user
+        UserNameElement.innerHTML = context.user.name;
+    
+        DebugPrint(`Setting Context To User Name: ${context.user.name}`);
+    
+        this.ContextUpdateCallback();
     }
 
-    // Clear the inventory mode
-    Header.classList.remove("mode-add");
-    Header.classList.remove("mode-remove");
-    InventoryModeStatusH2.innerHTML = "";
-}
+    static LoadUser = function(id) {
+        const user = this.LookupUserByID(id);
 
-function OnLogin() {
-    Main.classList.remove("hidden");
-
-    if(CurrentContext.user.level >= 3) {
-        let level3Items = document.querySelectorAll("main .level-3");
-
-        for(let i in level3Items) {
-            if(level3Items[i].classList != undefined)
-                level3Items[i].classList.remove("hidden");
+        if(user == null) {
+            console.error(`Unknown User: ${id}`);
+        } else {
+            DebugPrint(`Found user ${id}`);
         }
-
-        UpdateUserList();
+    
+        this.SetContext(new Context(user));
     }
-
-    // Set the inventory mode
-    // TODO: Set to mode remove
-    SetInventoryMode(MODE_REMOVE);
-}
-
-function ContextUpdateCallback() {
-    ClearLogInData();
-
-    if(CurrentContext != null) {
-        OnLogin();
+ 
+    static UnloadUser = function() {
+        this.SetContext(null);
     }
-}
-
-function SetContext(context) {
-    if(context == null) {
-        CurrentContext = null;
-        UserNameElement.innerHTML = "";
-
-        ContextUpdateCallback();
-
-        return;
-    }
-
-    CurrentContext = context;
-
-    // Update user
-    UserNameElement.innerHTML = context.user.name;
-
-    DebugPrint(`Setting Context To User Name: ${context.user.name}`);
-
-    ContextUpdateCallback();
-}
-
-function LoadUser(id) {
-    const user = LookupUserByID(id);
-
-    if(user == null) {
-        console.error(`Unknown User: ${id}`);
-    } else {
-        DebugPrint(`Found user ${id}`);
-    }
-
-    SetContext(new Context(user));
-}
-
-function UnloadUser() {
-    SetContext(null);
+    
 }

@@ -1,12 +1,12 @@
 function LogIn(user) {
     DebugPrint(`Logging in user: ${user}`);
     MessageSystem.EndMessage();
-    LoadUser(user);
+    ContextManager.LoadUser(user);
 }
 
 function LogOut() {
     DebugPrint("Logging out user");
-    UnloadUser();
+    ContextManager.UnloadUser();
     MessageSystem.DisplayMessage("Please Scan Your ID To Log In");
 }
 
@@ -18,14 +18,14 @@ function HandleBarcodeData(data) {
     DebugPrint(`Recieved Data: '${data}'`);
 
     // Check for valid user
-    const user = LookupUserByID(data);
+    const user = ContextManager.LookupUserByID(data);
     
     if(user != null) {
 
-        if(CurrentContext == null) {
+        if(ContextManager.GetCurrentContext() == null) {
             console.log("Logging In");
             LogIn(data);
-        } else if(CurrentContext != null && CurrentContext.user.id != data) {
+        } else if(ContextManager.GetCurrentContext() != null && ContextManager.GetCurrentContext().user.id != data) {
             console.log("Logging In!");
             LogIn(data);
         } else {
@@ -39,14 +39,14 @@ function HandleBarcodeData(data) {
     }
 
     // Make sure someone's signed in
-    if(CurrentContext == null) {
+    if(ContextManager.GetCurrentContext() == null) {
         MessageSystem.PushError("You Must Sign In Before Updating The Inventory System!");
         InputManager.FocusInput();
         return;
     }
 
     // Make sure the signed in user is allowed to modify the inventory
-    if(CurrentContext.user.level <= 1) {
+    if(ContextManager.GetCurrentContext().user.level <= 1) {
         // TODO: Push Error
         MessageSystem.PushError("You do not have permission to update the inventory system!");
         InputManager.FocusInput();
@@ -68,7 +68,7 @@ function HandleBarcodeData(data) {
         return;
     }
 
-    if(CurrentMode == MODE_ADD) {
+    if(ContextManager.GetCurrentMode() == MODE_ADD) {
         Inventory.AddItem(data);
     } else {
         Inventory.RemoveItem(data);
@@ -97,7 +97,7 @@ async function StartUpScanner() {
 
 function LoadData() {
     ReadJsonData("server/userdata.json", (data) => {
-        SaveUserData(data);
+        ContextManager.SaveUserData(data);
         StartUpScanner();
     });    
 }
