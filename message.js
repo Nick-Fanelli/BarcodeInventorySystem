@@ -16,7 +16,7 @@ class MessageSystem {
     static PushError = async function(errorMsg) {
         SoundManager.PlaySound(SoundManager.ErrorSound);
 
-        DebugError(errorMsg);
+        DebugError("MESSAGE SYSTEM: " + errorMsg);
     
         const IsShown = !this.#messageBox.classList.contains("hidden");
         const PreviousMessage = this.#messageText.innerHTML;

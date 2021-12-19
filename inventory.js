@@ -15,6 +15,16 @@ class Inventory {
    
     static inventoryPool = [];
 
+    static GetItemBySKU = function(sku) {
+        for(let i in this.inventoryPool) {
+            if(this.inventoryPool[i].sku === sku) {
+                return this.inventoryPool[i];
+            }
+        }
+
+        return null;
+    }
+
     static GetItemByBarcode = function(barcode) {
         for(let i in this.inventoryPool) {
             if(this.inventoryPool[i].barcode === barcode) {
@@ -34,9 +44,9 @@ class Inventory {
             let inventoryItem = this.inventoryPool[i];
     
             html += `<tr>
-            <td>TBD</td>
+            <td>N/A</td>
             <td>${inventoryItem.barcode}</td>
-            <td>TBD</td>
+            <td>N/A</td>
             <td>1-3</td>
             <td>${inventoryItem.quantity}</td>
             </tr>`;

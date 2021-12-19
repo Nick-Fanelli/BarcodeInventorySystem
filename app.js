@@ -95,6 +95,25 @@ class Application {
     
         }
     }
+    
+    static SearchBySKU = function() {
+        let sku = prompt("Enter SKU", "Eg. REV-00-0000");
+
+        if(sku != null) {
+
+            let item = Inventory.GetItemBySKU(sku);
+
+            if(item == null) {
+                MessageSystem.PushError(`Could not find item with SKU of: '${sku}'`);
+            } else {
+                // TODO: Scroll to the item
+                console.log("Found Item!");
+            }
+
+        }
+
+        InputManager.FocusInput();
+    }
 
 }
 

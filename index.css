@@ -4,7 +4,8 @@ html, body {
     margin: 0;
     box-sizing: border-box;
     background-color: #444444;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .hidden { display: none !important; }
@@ -44,20 +45,23 @@ html, body {
 }
 
 #centered-container {
-    position: absolute;
+    position: fixed;
     width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: transparent;
+    pointer-events: none !important;
 }
 
 header {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 4em;
+    z-index: 1;
     background-color: #333333;
     display: flex;
     justify-content: space-between;
@@ -97,7 +101,6 @@ main #user-list {
 main #user-list ul {
     margin: 0;
     height: 100%;
-    overflow-y: auto; 
 }
 
 main #user-list ul li#header {
@@ -190,6 +193,12 @@ main table td.c, main table th.c {
 main table td.r, main table th.r {
     text-align: center;
 }
+
+main table #search-btn {
+    margin: 0 0 0 0.25em;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
   
 @media screen and (max-width: 35.5em) {
     main table {
@@ -243,6 +252,6 @@ main table td.r, main table th.r {
     }
 
     main table tbody tr td:nth-child(5):before {
-        content: "Quantitiy";
+        content: "Quantity";
     }
 }

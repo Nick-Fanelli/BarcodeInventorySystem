@@ -7,6 +7,11 @@
     <title>Bravenator Inventory System</title>
 
     <link rel="stylesheet" href="index.css">
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
 
@@ -21,24 +26,29 @@
 
             <table>
                 <thead>
-                    <th>Item</th>
-                    <th>Barcode</th>
-                    <th>SKU</th>
-                    <th>Location</th>
-                    <th>Quantity</th>
+                    <tr>
+                        <th>Item</th>
+                        <th>Barcode</th>
+                        <th>SKU <i class="fa fa-search" id="search-btn" onclick="Application.SearchBySKU();"></i></th>
+                        <th>Location</th>
+                        <th>Quantity</th>
+                    </tr>
                 </thead>
 
                 <tbody>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
                 </tbody>
             </table>
         </div>
 
         <div id="user-list" class="level-3">
-            <ul>
-                <li id="header">User List</li>
-                <li class="l3">Nick Fanelli</li>
-                <li class="l3">Danni B</li>
-            </ul>
+            <ul></ul>
         </div>
 
    </main>
