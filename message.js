@@ -16,7 +16,7 @@ function DisplayMessage(message) {
 }
 
 async function PushError(errorMsg) {
-    PlaySound(ErrorSound);
+    SoundManager.PlaySound(SoundManager.ErrorSound);
 
     DebugError(errorMsg);
 

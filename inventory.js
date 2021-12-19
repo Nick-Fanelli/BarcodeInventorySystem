@@ -49,13 +49,13 @@ function AddItemToInventory(barcode) {
         DebugPrint("Adding new item");
 
         // Play Needs Attention Sound
-        PlaySound(NeedsAttentionSound);
+        SoundManager.PlaySound(SoundManager.NeedsAttentionSound);
 
         // Gather information about the item
 
         InventoryPool.push(new InventoryItem(barcode, "N/A", "N/A"));
     } else {
-        PlaySound(AddItemSound);
+        SoundManager.PlaySound(SoundManager.AddItemSound);
         DebugPrint(`Incrementing: ${barcode}`);
         inventoryItem.quantity++;
     }
@@ -74,7 +74,7 @@ function RemoveItemFromInventory(barcode) {
             PushError("Uh Oh! You ran out of these to remove! You broke something for real!!!")
         } else {
             // Decrement the item
-            PlaySound(RemoveItemSound);
+            SoundManager.PlaySound(SoundManager.RemoveItemSound);
             inventoryItem.quantity--;
             SyncInventoryHTML();
         }

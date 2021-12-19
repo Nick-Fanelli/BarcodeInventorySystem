@@ -1,8 +1,3 @@
-const ErrorSound = new Audio("sounds/error-sound.wav");
-const NeedsAttentionSound = new Audio("sounds/needs-attention-beep.mp3");
-const AddItemSound = new Audio("sounds/add-item-beep.mp3");
-const RemoveItemSound = new Audio("sounds/remove-item-beep.mp3");
-
 function DebugPrint(message) {
     console.log(message);
 }
@@ -28,7 +23,20 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function PlaySound(sound) { 
-    sound.currentTime = 0;
-    sound.play(); 
+class SoundManager {
+
+    static ErrorSound = new Audio("sounds/error-sound.wav");
+    static NeedsAttentionSound = new Audio("sounds/needs-attention-beep.mp3");
+    static AddItemSound = new Audio("sounds/add-item-beep.mp3");
+    static RemoveItemSound = new Audio("sounds/remove-item-beep.mp3");
+
+    static #shouldPlaySound = false;
+
+    static PlaySound = function(sound) {
+        if(!this.#shouldPlaySound)
+            return;
+        sound.currentTime = 0;
+        sound.play(); 
+    }
+
 }
