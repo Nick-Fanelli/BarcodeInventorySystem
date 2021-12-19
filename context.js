@@ -51,6 +51,10 @@ function SetInventoryMode(mode) {
     }
 }
 
+function ToggleInventoryMode() {
+    SetInventoryMode(CurrentMode == MODE_ADD ? MODE_REMOVE : MODE_ADD);
+}
+
 function LookupUserByID(id) {
     for(let i in UserPool) {
         let user = UserPool[i];
