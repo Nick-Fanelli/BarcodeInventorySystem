@@ -1,4 +1,3 @@
-
 class MessageSystem {
 
     static #messageBox = document.getElementById("message-box");
