@@ -68,10 +68,10 @@ function RemoveItemFromInventory(barcode) {
     let inventoryItem = GetInventoryItemByBarcode(barcode);
 
     if(inventoryItem == null) {
-        PushError("This item doesn't exist in the system! Maybe you meant to add it?");
+        MessageSystem.PushError("This item doesn't exist in the system! Maybe you meant to add it?");
     } else {
         if(inventoryItem.quantity <= 0) {
-            PushError("Uh Oh! You ran out of these to remove! You broke something for real!!!")
+            MessageSystem.PushError("Uh Oh! You ran out of these to remove! You broke something for real!!!")
         } else {
             // Decrement the item
             SoundManager.PlaySound(SoundManager.RemoveItemSound);

@@ -1,13 +1,13 @@
 function LogIn(user) {
     DebugPrint(`Logging in user: ${user}`);
-    EndMessage();
+    MessageSystem.EndMessage();
     LoadUser(user);
 }
 
 function LogOut() {
     DebugPrint("Logging out user");
     UnloadUser();
-    DisplayMessage("Please Scan Your ID To Log In");
+    MessageSystem.DisplayMessage("Please Scan Your ID To Log In");
 }
 
 function HandleBarcodeData(data) {
@@ -32,7 +32,7 @@ function HandleBarcodeData(data) {
             LogOut();
         }
 
-        FocusInput();
+        InputManager.FocusInput();
 
         return;
 
@@ -40,16 +40,16 @@ function HandleBarcodeData(data) {
 
     // Make sure someone's signed in
     if(CurrentContext == null) {
-        PushError("You Must Sign In Before Updating The Inventory System!");
-        FocusInput();
+        MessageSystem.PushError("You Must Sign In Before Updating The Inventory System!");
+        InputManager.FocusInput();
         return;
     }
 
     // Make sure the signed in user is allowed to modify the inventory
     if(CurrentContext.user.level <= 1) {
         // TODO: Push Error
-        PushError("You do not have permission to update the inventory system!");
-        FocusInput();
+        MessageSystem.PushError("You do not have permission to update the inventory system!");
+        InputManager.FocusInput();
         return;
     }
 
@@ -58,13 +58,13 @@ function HandleBarcodeData(data) {
         // Set Mode To Add
         DebugPrint("Setting Inventory Mode To: Add");
         SetInventoryMode(MODE_ADD);
-        FocusInput();
+        InputManager.FocusInput();
         return;
     } else if(data === "#MODE_REMOVE#") {
         // Set Mode To Remove
         console.log("Setting Inventory Mode To: Remove");
         SetInventoryMode(MODE_REMOVE);
-        FocusInput();
+        InputManager.FocusInput();
         return;
     }
 
@@ -74,23 +74,23 @@ function HandleBarcodeData(data) {
         RemoveItemFromInventory(data);
     }
 
-    FocusInput(); // Alway refocus the input
+    InputManager.FocusInput(); // Alway refocus the input
 } 
 
 
 async function StartUpScanner() {
     LogOut();
     LogIn("45563");
-    FocusInput();
+    InputManager.FocusInput();
 
-    BindInputCallback(HandleBarcodeData);
+    InputManager.BindInputCallback(HandleBarcodeData);
 
     while(true) {
 
         await sleep(1000);
 
         // Focus the input
-        FocusInput();
+        InputManager.FocusInput();
 
     }
 }

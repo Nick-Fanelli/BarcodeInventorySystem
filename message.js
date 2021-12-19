@@ -1,44 +1,45 @@
-const MessageBox = document.getElementById("message-box");
-const MessageText = document.querySelector("#message-box #message");
 
-function EndMessage() {
+class MessageSystem {
 
-    MessageBox.classList.add('hidden');
+    static #messageBox = document.getElementById("message-box");
+    static #messageText = document.querySelector("#message-box #message");
 
-}
-
-function DisplayMessage(message) {
-
-    MessageText.innerHTML = message;
-    MessageText.classList.remove("error-msg");
-    MessageBox.classList.remove("hidden");
-
-}
-
-async function PushError(errorMsg) {
-    SoundManager.PlaySound(SoundManager.ErrorSound);
-
-    DebugError(errorMsg);
-
-    const IsShown = !MessageBox.classList.contains("hidden");
-    const PreviousMessage = MessageText.innerHTML;
-
-    if(MessageText.classList.contains("error-msg"))
-        return;
-
-    MessageText.innerHTML = errorMsg;
-    MessageText.classList.add("error-msg");
-    MessageBox.classList.remove("hidden");
-
-    for(let i = 0; i <= 6; i++) {
-        await sleep(500);
-
-        MessageText.classList.toggle("error-msg");
+    static DisplayMessage = function(message) {
+        this.#messageText.innerHTML = message;
+        this.#messageText.classList.remove("error-msg");
+        this.#messageBox.classList.remove("hidden");
     }
 
-    MessageText.classList.remove("error-msg");
-    MessageText.innerHTML = PreviousMessage;
+    static EndMessage = function() {
+        this.#messageBox.classList.add("hidden");
+    }
 
-    if(!IsShown)
-        MessageBox.classList.add("hidden");
+    static PushError = async function(errorMsg) {
+        SoundManager.PlaySound(SoundManager.ErrorSound);
+
+        DebugError(errorMsg);
+    
+        const IsShown = !this.#messageBox.classList.contains("hidden");
+        const PreviousMessage = this.#messageText.innerHTML;
+    
+        if(this.#messageText.classList.contains("error-msg"))
+            return;
+    
+        this.#messageText.innerHTML = errorMsg;
+        this.#messageText.classList.add("error-msg");
+        this.#messageBox.classList.remove("hidden");
+
+        for(let i = 0; i <= 6; i++) {
+            await sleep(500);
+    
+            this.#messageText.classList.toggle("error-msg");
+        }
+    
+        this.#messageText.classList.remove("error-msg");
+        this.#messageText.innerHTML = PreviousMessage;
+    
+        if(!IsShown)
+            this.EndMessage();
+    }
+
 }

@@ -1,20 +1,23 @@
-const Input = document.querySelector("#hidden-input #input");
+class InputManager {
 
-let enterCallback = null;
+    static #inputElement = document.querySelector("#hidden-input #input");
+    static #enterCallback = null;
 
-function BindInputCallback(callback) {
-    enterCallback = callback;
-}
+    static BindInputCallback = function(callback) {
+        this.#enterCallback = callback;
+    }
 
-function FocusInput() {
-    Input.focus();
-}
+    static FocusInput = function() {
+        this.#inputElement.focus();
+    }
 
-function KeyPress(event) {
-    if(event.code === "Enter") {
-        if(enterCallback != null) {
-            enterCallback(Input.value);
-            Input.value = "";
+    static KeyPress = function(event) {
+        if(event.code === "Enter") {
+            if(this.#enterCallback != null) {
+                this.#enterCallback(this.#inputElement.value);
+                this.#inputElement.value = "";
+            }
         }
     }
+
 }
