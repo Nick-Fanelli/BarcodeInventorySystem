@@ -17,7 +17,7 @@ class Application {
         if(data === "")
             return;
     
-        DebugPrint(`Recieved Data: '${data}'`);
+        DebugPrint(`Received Data: '${data}'`);
     
         // Check for valid user
         const user = ContextManager.LookupUserByID(data);
@@ -79,6 +79,10 @@ class Application {
         InputManager.FocusInput(); // Alway refocus the input
     } 
 
+    static ShouldFocusInput = function() {
+        return Inventory.NewItemBox.classList.contains("hidden");
+    }
+
     static StartUpScanner = async function() {
         this.LogOut();
         this.LogIn("45563");
@@ -91,8 +95,8 @@ class Application {
             await sleep(1000);
     
             // Focus the input
-            InputManager.FocusInput();
-    
+            if(this.ShouldFocusInput())
+                InputManager.FocusInput();
         }
     }
     

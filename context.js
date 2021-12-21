@@ -129,8 +129,8 @@ class ContextManager {
             this.UpdateUserList();
         }
     
-        // Set the inventory mode
-        this.SetInventoryMode(MODE_REMOVE);
+        // Set the inventory mode 
+        this.SetInventoryMode(MODE_ADD); // TODO: Set to remove mode
     }
 
     static ContextUpdateCallback = function() {

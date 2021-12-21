@@ -49,10 +49,13 @@ html, body {
     width: 100vw;
     height: 100vh;
     display: flex;
+    top: 0;
+    left: 0;
     justify-content: center;
     align-items: center;
     background-color: transparent;
     pointer-events: none !important;
+    z-index: 2;
 }
 
 header {
@@ -78,6 +81,88 @@ header h2 {
     font-weight: 100;
     color: #ffffff;
     margin: 0;
+}
+
+#new-item-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#new-item-container #new-item-box {
+    position: relative;
+    width: 85%;
+    height: 85%;
+    background-color: #222222;
+    pointer-events: all;
+    display: flex;
+    flex-direction: column;
+}
+
+#new-item-container #new-item-box.hidden {
+    pointer-events: none !important;
+}
+
+#new-item-container #new-item-box .row {
+    width: 50%;
+    height: 2.5em;
+    margin: 2em 0 0 2em;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+#new-item-container #new-item-box .row * {
+    display: inline-block;
+}
+
+#new-item-container #new-item-box .row p {
+    color: white;
+    font-family: "Roboto";
+    font-size: 1.2rem;
+    margin: 0 1em 0 0;
+    pointer-events: none !important;
+    width: 20%;
+}
+
+#new-item-container #new-item-box .row input {
+    height: 100%;
+    width: 20em;
+    max-width: 50%;
+    background-color: #333333;
+    border-radius: 8px;
+    border: none;
+    outline: #111111;
+    color: white;
+    font-size: 1.2rem;
+    padding: 0 0 0 10px;
+}
+
+#new-item-container #new-item-box #close-btn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    font-size: 3rem;
+    color: white;
+    font-weight: 100;
+    cursor: pointer;
+}
+
+@keyframes shiftInput {
+    from {
+        margin-left: 0;
+    }
+
+    to {
+        margin-left: 6.5em;
+    }
 }
 
 main {

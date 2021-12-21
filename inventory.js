@@ -12,6 +12,11 @@ class InventoryItem {
 var InventoryPool = [];
 
 class Inventory {
+
+    static NewItemBox = document.querySelector("#new-item-container #new-item-box");
+    static SkuInputField = document.querySelector("#new-item-container #new-item-box #part-sku");
+    static PartNameField = document.querySelector("#new-item-container #new-item-box #part-name");
+    static ExitButton = document.querySelector("#new-item-container #new-item-box #close-btn");
    
     static inventoryPool = [];
 
@@ -35,7 +40,9 @@ class Inventory {
         return null;
     }
 
-    static SyncInventoryHTML = function() {
+    static SyncInventory = function() {
+        // TODO: Push Inventory Pool
+
         const tableBody = document.querySelector("main table tbody");
 
         let html = "";
@@ -55,6 +62,24 @@ class Inventory {
         tableBody.innerHTML = html;
     }
 
+    static RequestNewPartInformation = async function() {
+
+        DebugPrint("Opening Request New Part Information Window");
+
+        // Clear the fields
+        this.SkuInputField.value = "";
+        this.PartNameField.value = "";
+
+        // Set the button callbacks
+        this.ExitButton.addEventListener("click", () => {
+            DebugPrint("Closing Request New Part Information Window (User Close)");
+            this.NewItemBox.classList.add("hidden");
+        });
+
+        // Make it visible
+        this.NewItemBox.classList.remove("hidden");
+    }
+
     static AddItem = function(barcode) {
         let inventoryItem = this.GetItemByBarcode(barcode);
 
@@ -65,6 +90,7 @@ class Inventory {
             SoundManager.PlaySound(SoundManager.NeedsAttentionSound);
     
             // Gather information about the item
+            let partInfo = this.RequestNewPartInformation();
     
             this.inventoryPool.push(new InventoryItem(barcode, "N/A", "N/A"));
         } else {
@@ -73,7 +99,7 @@ class Inventory {
             inventoryItem.quantity++;
         }
     
-        this.SyncInventoryHTML();
+        this.SyncInventory();
     }
 
     static RemoveItem = function(barcode) {
@@ -88,7 +114,7 @@ class Inventory {
                 // Decrement the item
                 SoundManager.PlaySound(SoundManager.RemoveItemSound);
                 inventoryItem.quantity--;
-                this.SyncInventoryHTML();
+                this.SyncInventory();
             }
         }
     
