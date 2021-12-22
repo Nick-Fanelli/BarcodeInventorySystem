@@ -20,6 +20,9 @@ class Inventory {
    
     static inventoryPool = [];
 
+    static isClosePartWindowDisplayed = false;
+    static funcCallback = null;
+
     static GetItemBySKU = function(sku) {
         for(let i in this.inventoryPool) {
             if(this.inventoryPool[i].sku === sku) {
@@ -62,7 +65,32 @@ class Inventory {
         tableBody.innerHTML = html;
     }
 
-    static RequestNewPartInformation = async function() {
+    static CloseNewPartInformationWindow = function() {
+
+        if(!this.isClosePartWindowDisplayed)
+            return;
+
+        DebugPrint("Closing Request New Part Information Window (User Close)");
+        this.NewItemBox.classList.add("hidden");
+        this.isClosePartWindowDisplayed = false;
+
+        this.funcCallback(null);
+        this.funcCallback = null;
+
+    }
+
+    static SubmitPartInformation = function() {
+        if(!this.isClosePartWindowDisplayed)
+            return;
+
+        console.log("Submitting Part Information");
+
+        this.funcCallback(null);
+        this.funcCallback = null;
+
+    }
+
+    static RequestNewPartInformation = function(funcCallback) {
 
         DebugPrint("Opening Request New Part Information Window");
 
@@ -70,15 +98,19 @@ class Inventory {
         this.SkuInputField.value = "";
         this.PartNameField.value = "";
 
+        // Bind callback
+        this.funcCallback = funcCallback;
+
         // Set the button callbacks
         this.ExitButton.addEventListener("click", () => {
-            DebugPrint("Closing Request New Part Information Window (User Close)");
-            this.NewItemBox.classList.add("hidden");
+            this.CloseNewPartInformationWindow();
         });
 
         // Make it visible
         this.NewItemBox.classList.remove("hidden");
-    }
+
+        this.isClosePartWindowDisplayed = true;
+   }
 
     static AddItem = function(barcode) {
         let inventoryItem = this.GetItemByBarcode(barcode);
@@ -90,16 +122,24 @@ class Inventory {
             SoundManager.PlaySound(SoundManager.NeedsAttentionSound);
     
             // Gather information about the item
-            let partInfo = this.RequestNewPartInformation();
+            let partInfo = this.RequestNewPartInformation(function(partInfo) {
+
+                if(partInfo == null)
+                    return;
+
+                
+
+                this.inventoryPool.push(new InventoryItem(barcode, "N/A", "N/A"));
+
+                this.SyncInventory();
+            });
     
-            this.inventoryPool.push(new InventoryItem(barcode, "N/A", "N/A"));
         } else {
             SoundManager.PlaySound(SoundManager.AddItemSound);
             DebugPrint(`Incrementing: ${barcode}`);
             inventoryItem.quantity++;
+            this.SyncInventory();
         }
-    
-        this.SyncInventory();
     }
 
     static RemoveItem = function(barcode) {
@@ -120,3 +160,7 @@ class Inventory {
     
     }
 }
+
+InputManager.EscapeKeyCallbacks.push(function() {
+    Inventory.CloseNewPartInformationWindow();
+});

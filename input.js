@@ -1,5 +1,7 @@
 class InputManager {
 
+    static EscapeKeyCallbacks = [];
+
     static #inputElement = document.querySelector("#hidden-input #input");
     static #enterCallback = null;
 
@@ -19,5 +21,12 @@ class InputManager {
             }
         }
     }
-
 }
+
+document.addEventListener("keydown", function(key) {
+    if(key.key == "Escape") {
+        for(let i in InputManager.EscapeKeyCallbacks) {
+            InputManager.EscapeKeyCallbacks[i]();
+        }
+    }
+});
