@@ -125,9 +125,10 @@ class Application {
 
 function LoadData() {
 
-    ContextManager.SaveUserData(UserData);
-    
-    Application.StartUpScanner();
+    ReadJsonData("", (jsonData) => {
+        ContextManager.SaveUserData(jsonData);
+        Application.StartUpScanner();
+    });
 }
 
 window.addEventListener("load", LoadData);

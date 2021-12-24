@@ -1,4 +1,4 @@
-const UserData = {
+{
     "Nick Fanelli": [
         "45563",
         "3"
@@ -63,11 +63,5 @@ const UserData = {
     "Zackary Warner": [
         "44145",
         "2"
-    ],
-
-    "Jay Hallam": [
-        "43426",
-        "1"
     ]
-
 }
