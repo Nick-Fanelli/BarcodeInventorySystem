@@ -1,4 +1,4 @@
-{
+const UserData = {
     "Nick Fanelli": [
         "45563",
         "3"

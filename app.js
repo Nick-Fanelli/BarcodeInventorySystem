@@ -124,10 +124,10 @@ class Application {
 
 
 function LoadData() {
-    ReadJsonData("server/userdata.json", (data) => {
-        ContextManager.SaveUserData(data);
-        Application.StartUpScanner();
-    });    
+
+    ContextManager.SaveUserData(UserData);
+    
+    Application.StartUpScanner();
 }
 
 window.addEventListener("load", LoadData);
