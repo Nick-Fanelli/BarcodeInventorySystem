@@ -126,6 +126,7 @@ function LoadData() {
     ReadJsonData("https://nick-fanelli.github.io/BarcodeInventorySystem/serverData/userdata.json", (jsonData) => {
         ContextManager.SaveUserData(jsonData);
         Application.StartUpScanner();
+        Application.HandleBarcodeData("1298798374534");
     });
 }
 

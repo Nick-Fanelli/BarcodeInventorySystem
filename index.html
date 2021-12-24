@@ -60,31 +60,32 @@
     </div>
 
     <div id="new-item-container">
-        <section id="new-item-box" class="">
+        <section id="new-item-box" class="hidden">
 
             <i class="fa fa-times" id="close-btn"></i>
 
             <div id="input-fields">
 
                 <div class="row">
-                    <p>Part SKU <span class="required-star"></span></p>
+                    <p class="invalid" id="part-sku-label">Part SKU <span class="required-star"></span></p>
                     <input type="text" id="part-sku">
                 </div>
 
                 <div class="row">
-                    <p>Part Name <span class="required-star"></span></p>
+                    <p class="invalid" id="part-name-label">Part Name <span class="required-star"></span></p>
                     <input type="text" id="part-name">
                 </div>
             </div>
 
             <div class="right-wrapper">
                 <div id="part-description">
-                    <h1>Part Name</h1>
-                    <h3>REV-123-4567</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum nam libero error maxime nesciunt reiciendis temporibus optio dolorem illo sunt.</p>
+                    <h1 id="part-name-text"></h1>
+                    <h3 id="barcode-text" style="font-style: italic;"></h3>
+                    <h3 id="sku-text"></h3>
+                    <p id="description-text"></p>
                 </div>
 
-                <button id="save-btn">Save</button>
+                <button id="save-btn" disabled>Save</button>
             </div>
 
         </section>

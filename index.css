@@ -151,6 +151,10 @@ header h2 {
     width: 100%;
 }
 
+#new-item-container #new-item-box .row p.invalid {
+    color: red !important;
+}
+
 #new-item-container #new-item-box .row input {
     height: 100%;
     width: 20em;
@@ -166,10 +170,9 @@ header h2 {
 #new-item-container #new-item-box #close-btn {
     position: absolute;
     top: 5px;
-    right: 15px;
+    left: 15px;
     font-size: 3rem;
-    color: white;
-    font-weight: 100;
+    color: #e6e6e6;
     cursor: pointer;
 }
 
@@ -225,6 +228,7 @@ header h2 {
 #new-item-container #new-item-box #save-btn:disabled {
     opacity: 50%;
     background-color: #444444;
+    cursor: default !important;
 }
 
 main {
