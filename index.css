@@ -151,8 +151,7 @@ header h2 {
 
 #new-item-container #new-item-box input {
     height: 1.75em;
-    /* width: 50em; */
-    /* max-width: 75%; */
+    width: 17em;
     background-color: #333333;
     border-radius: 8px;
     border: none;
