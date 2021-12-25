@@ -74,10 +74,6 @@ for line in indexContents:
     finalFilecontents += line
 
 # Export the final filecontents
-with open("packaged-index.html", 'r+') as f:
-    f.truncate(0)
-f.close()
-
-outFile = open("packaged-index.html", "a")
+outFile = open("packaged-index.html", "w+")
 outFile.write(finalFilecontents)
 outFile.close()
