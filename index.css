@@ -209,7 +209,7 @@ header h2 {
     margin-bottom: 0.25em;
 }
 
-#new-item-box #location-selection .shelf .l1, .l2, .l3, .l4 {
+#new-item-box #location-selection .shelf .shelf-level {
     height: 20%;
     width: 100%;
     background-color: #333333;
@@ -221,26 +221,26 @@ header h2 {
     font-family: "Roboto";
 }
 
-#new-item-box #location-selection .shelf .l1::before { content: 'Level 1'; }
-#new-item-box #location-selection .shelf .l2::before { content: 'Level 2'; }
-#new-item-box #location-selection .shelf .l3::before { content: 'Level 3'; }
-#new-item-box #location-selection .shelf .l4::before { content: 'Level 4'; }
+#new-item-box #location-selection .shelf .shelf-level-1::before { content: 'Level 1'; }
+#new-item-box #location-selection .shelf .shelf-level-2::before { content: 'Level 2'; }
+#new-item-box #location-selection .shelf .shelf-level-3::before { content: 'Level 3'; }
+#new-item-box #location-selection .shelf .shelf-level-4::before { content: 'Level 4'; }
 
-#new-item-box #location-selection .shelf .l4 {
+#new-item-box #location-selection .shelf .shelf-level-4 {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
 
-#new-item-box #location-selection .shelf .l1 {
+#new-item-box #location-selection .shelf .shelf-level-1 {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
 
-#new-item-box #location-selection .shelf .l1:hover, .l2:hover, .l3:hover, .l4:hover {
+#new-item-box #location-selection .shelf .shelf-level:hover {
     background-color: #007BFF;
 }
 
-#new-item-box #location-selection .shelf .l1.selected, .l2.selected, .l3.selected, .l4.selected {
+#new-item-box #location-selection .shelf .shelf-level.selected {
     background-color: #007BFF;
 }
 
