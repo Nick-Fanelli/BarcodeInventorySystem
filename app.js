@@ -87,6 +87,9 @@ class Application {
         this.LogOut();
         this.LogIn("45563");
         InputManager.FocusInput();
+
+        Inventory.inventoryPool.push(new InventoryItem("Some Barcode", "Name", "3-3", "SKU", "1"));
+        Inventory.SyncInventory();
     
         InputManager.BindInputCallback(this.HandleBarcodeData);
     

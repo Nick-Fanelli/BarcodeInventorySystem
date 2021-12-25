@@ -131,6 +131,8 @@ class ContextManager {
     
         // Set the inventory mode 
         this.SetInventoryMode(MODE_ADD); // TODO: Set to remove mode
+
+        Inventory.SyncInventory();
     }
 
     static ContextUpdateCallback = function() {

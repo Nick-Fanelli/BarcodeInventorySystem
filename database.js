@@ -15,6 +15,6 @@ class Database {
         google.script.run.withSuccessHandler(function(result) {
             callback(result);
         }).BACKENDPullInventoryData();
-    }
+    }   
 
 }

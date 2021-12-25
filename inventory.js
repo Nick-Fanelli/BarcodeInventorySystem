@@ -56,17 +56,23 @@ class Inventory {
         const tableBody = document.querySelector("main table tbody");
 
         let html = "";
+
+        if(ContextManager.GetCurrentContext() == null || ContextManager.GetCurrentContext().user == null)
+            return;
     
+        let permissionLevel = ContextManager.GetCurrentContext().user.level;
+
         for(let i in this.inventoryPool) {
             let inventoryItem = this.inventoryPool[i];
-    
+
             html += `<tr>
-            <td>${inventoryItem.name}</td>
+            <td ${permissionLevel >= 2 ? `class="item-name" onclick="Inventory.RenameItem(this);"` : ""}>${inventoryItem.name}</td>
             <td>${inventoryItem.barcode}</td>
-            <td>${inventoryItem.sku}</td>
+            <td ${permissionLevel >= 2 ? `class="item-name" onclick="Inventory.RefactorSKU(this);"` : ""}>${inventoryItem.sku}</td>
             <td>${inventoryItem.location}</td>
-            <td>${inventoryItem.quantity}</td>
+            <td>${inventoryItem.quantity} ${permissionLevel >= 3 ? `<i class="fa fa-trash delete-btn" onclick="Inventory.DeleteItem(this.parentElement.parentElement);"></i>` : ""}</td>
             </tr>`;
+           
         }
     
         tableBody.innerHTML = html;
@@ -84,6 +90,72 @@ class Inventory {
                 this.SyncInventory(); 
             });
         }
+    }
+
+    static RenameItem = function(itemElement) {
+        let parentElement = itemElement.parentElement;
+        let itemBarcode = parentElement.children[1].innerHTML;
+
+        if(itemBarcode == null || itemBarcode == undefined) {
+            PushError("Internal Location Error!");
+            return;
+        }
+
+        this.inventoryPool.forEach((item) => {
+            if(item.barcode === itemBarcode) {
+                let newValue = prompt("Please Enter a New Item Name");
+                item.name = newValue;
+                return;
+            }
+        });
+
+        DebugPrint("Successfully Renamed Item In Inventory Pool");
+        this.SyncInventory();
+    }
+
+    static RefactorSKU = function(itemElement) {
+        let parentElement = itemElement.parentElement;
+        let itemBarcode = parentElement.children[1].innerHTML;
+
+        if(itemBarcode == null || itemBarcode == undefined) {
+            PushError("Internal Location Error!");
+            return;
+        }
+
+        this.inventoryPool.forEach((item) => {
+            if(item.barcode === itemBarcode) {
+                let newValue = prompt("Please Enter a New Item Name");
+                item.sku = newValue;
+                return;
+            }
+        });
+
+        DebugPrint("Successfully Renamed Item In Inventory Pool");
+        this.SyncInventory();
+    }
+
+    static DeleteItem = function(element) {
+        let itemBarcode = element.children[1].innerHTML;
+
+        this.inventoryPool.forEach((item) => {
+            if(item.barcode === itemBarcode) {
+                let result = confirm(`Are you sure you want to remove: '${item.name}'`);
+                if(!result) {
+                    return;
+                }
+
+                // Remove From Inventory Pool
+                let index = this.inventoryPool.indexOf(item);
+                if(index > -1) {
+                    this.inventoryPool.splice(index, 1);
+                }
+                
+                DebugPrint("Successfully Removed Item In Inventory Pool");
+                return;
+            }
+        });
+
+        this.SyncInventory();
     }
 
     static ValidateNewPartInfoSubmitButton = function() {
