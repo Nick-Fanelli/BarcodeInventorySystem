@@ -40,13 +40,17 @@ class Inventory {
     }
 
     static GetItemByBarcode = function(barcode) {
-        for(let i in this.inventoryPool) {
-            if(this.inventoryPool[i].barcode === barcode) {
-                return this.inventoryPool[i];
-            }
-        }
 
-        return null;
+        let returnItem = null;
+
+        this.inventoryPool.forEach((item) => {
+            if(item.barcode.toString().trim() == barcode.toString().trim()) {
+                returnItem = item;
+                return;
+            }
+        });
+
+        return returnItem;
     }
 
     static SyncInventory = function() {
@@ -104,6 +108,8 @@ class Inventory {
         this.inventoryPool.forEach((item) => {
             if(item.barcode === itemBarcode) {
                 let newValue = prompt("Please Enter a New Item Name");
+                if(newValue == null)
+                    return;
                 item.name = newValue;
                 return;
             }
@@ -125,6 +131,8 @@ class Inventory {
         this.inventoryPool.forEach((item) => {
             if(item.barcode === itemBarcode) {
                 let newValue = prompt("Please Enter a New Item Name");
+                if(newValue == null)
+                    return;
                 item.sku = newValue;
                 return;
             }
@@ -278,6 +286,8 @@ class Inventory {
 
     static AddItem = function(barcode) {
         let inventoryItem = this.GetItemByBarcode(barcode);
+
+        console.log(`Inventory Item: ${inventoryItem}`);
 
         if(inventoryItem == null) { // Item Doesn't Exist
             DebugPrint("Adding new item");

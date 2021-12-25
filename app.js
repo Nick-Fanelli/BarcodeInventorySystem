@@ -85,16 +85,14 @@ class Application {
 
     static StartUpScanner = async function() {
         this.LogOut();
-        this.LogIn("45563");
+        // this.LogIn("45563");
         InputManager.FocusInput();
 
-        Inventory.inventoryPool.push(new InventoryItem("Some Barcode", "Name", "3-3", "SKU", "1"));
-        Inventory.SyncInventory();
+        // Inventory.inventoryPool.push(new InventoryItem("123", "Name", "3-3", "SKU", "1"));
+        // Inventory.SyncInventory();
     
         InputManager.BindInputCallback(this.HandleBarcodeData);
     
-        let count = 0;
-
         while(true) {
     
             await sleep(1000);
@@ -102,13 +100,6 @@ class Application {
             // Focus the input
             if(this.ShouldFocusInput())
                 InputManager.FocusInput();
-
-            count++;
-
-            if(count >= 4) {
-                Inventory.PullInventory();
-                count = 0;
-            }
         }
     }
     
