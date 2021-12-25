@@ -65,28 +65,42 @@
             <i class="fa fa-times" id="close-btn"></i>
 
             <div id="input-fields">
-
-                <div class="row">
+                <div class="input-field">
                     <p class="invalid" id="part-sku-label">Part SKU <span class="required-star"></span></p>
                     <input type="text" id="part-sku">
                 </div>
 
-                <div class="row">
+                <div class="input-field">
                     <p class="invalid" id="part-name-label">Part Name <span class="required-star"></span></p>
                     <input type="text" id="part-name">
                 </div>
             </div>
 
-            <div class="right-wrapper">
-                <div id="part-description">
-                    <h1 id="part-name-text"></h1>
-                    <h3 id="barcode-text" style="font-style: italic;"></h3>
-                    <h3 id="sku-text"></h3>
-                    <p id="description-text"></p>
+            <div id="location-selection">
+                <div class="shelf" id="shelf-1">
+                    <p>Shelf 3</p>
+                    <div class="l4"></div>
+                    <div class="l3"></div>
+                    <div class="l2"></div>
+                    <div class="l1"></div>
                 </div>
-
-                <button id="save-btn" disabled>Save</button>
+                <div class="shelf" id="shelf-2">
+                    <p>Shelf 2</p>
+                    <div class="l4"></div>
+                    <div class="l3"></div>
+                    <div class="l2"></div>
+                    <div class="l1"></div>
+                </div>
+                <div class="shelf" id="shelf-3">
+                    <p>Shelf 1</p>
+                    <div class="l4"></div>
+                    <div class="l3"></div>
+                    <div class="l2"></div>
+                    <div class="l1"></div>
+                </div>
             </div>
+
+            <button id="save-btn" disabled>Save</button>
 
         </section>
     </div>

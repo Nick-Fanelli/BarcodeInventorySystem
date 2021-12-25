@@ -20,15 +20,12 @@ class Inventory {
     static ExitButton = document.querySelector("#new-item-container #new-item-box #close-btn");
     static SubmitButton = document.querySelector("#new-item-container #new-item-box #save-btn");
 
-    static DescriptionPartName = document.querySelector("#new-item-container #new-item-box #part-description #part-name-text");
-    static DescriptionBarcode = document.querySelector("#new-item-container #new-item-box #part-description #barcode-text");
-    static DescriptionSKU = document.querySelector("#new-item-container #new-item-box #part-description #sku-text");
-    static DescriptionTextDescription = document.querySelector("#new-item-container #new-item-box #part-description #description-text");
-   
     static inventoryPool = [];
 
     static isClosePartWindowDisplayed = false;
     static funcCallback = null;
+
+    static #currentBarcode = null;
 
     static GetItemBySKU = function(sku) {
         for(let i in this.inventoryPool) {
@@ -98,8 +95,6 @@ class Inventory {
             this.PartSKULabel.classList.remove("invalid");
         }
 
-        this.DescriptionSKU.innerHTML = currentValue;
-
         // TODO: Identify as REV
 
         this.ValidateNewPartInfoSubmitButton();
@@ -114,8 +109,6 @@ class Inventory {
         } else {
             this.PartNameLabel.classList.remove("invalid");
         }
-
-        this.DescriptionPartName.innerHTML = currentValue;
 
         this.ValidateNewPartInfoSubmitButton();
     }
@@ -138,7 +131,7 @@ class Inventory {
 
         console.log("Submitting Part Information");
 
-        this.funcCallback(new InventoryItem(this.DescriptionBarcode.innerHTML, this.PartNameField.value, this.SkuInputField.value));
+        this.funcCallback(new InventoryItem(this.#currentBarcode, this.PartNameField.value, this.SkuInputField.value));
         this.CloseNewPartInformationWindow();
     }
 
@@ -152,16 +145,10 @@ class Inventory {
         this.PartSKULabel.classList.add("invalid");
         this.PartNameLabel.classList.add("invalid");
 
-        // Set the barcode field
-        this.DescriptionBarcode.innerHTML = barcode;
-
-        // Clear the description fields
-        this.DescriptionPartName.innerHTML = "";
-        this.DescriptionSKU.innerHTML = "";
-        this.DescriptionTextDescription.innerHTML = "";
-
         // Bind callback
         this.funcCallback = funcCallback;
+
+        this.#currentBarcode = barcode;
 
         // Set the button callbacks
         this.ExitButton.addEventListener("click", () => {

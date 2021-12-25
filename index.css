@@ -104,60 +104,55 @@ header h2 {
 }
 
 #new-item-container #new-item-box {
-    position: relative;
-    width: 85%;
-    height: 85%;
+    width: 90vw;
+    height: 90vh;
     background-color: #222222;
     pointer-events: all;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-#new-item-container #new-item-box .right-wrapper {
-    width: 50%;
-    height: 100%;
+    position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-}
-
-#new-item-container #new-item-box div {
-    width: 50%;
 }
 
 #new-item-container #new-item-box.hidden {
     pointer-events: none !important;
 }
 
-#new-item-container #new-item-box .row {
-    width: 75%;
-    height: 2.5em;
-    margin: 2em 0 4em 2em;
-    position: relative;
-}
-
-#new-item-container #new-item-box .row * {
-    display: inline-block;
-}
-
-#new-item-container #new-item-box .row p {
-    color: white;
-    font-family: "Roboto";
-    font-size: 1.2rem;
-    margin: 0 0 0.25em 0;
-    pointer-events: none !important;
-    width: 100%;
-}
-
-#new-item-container #new-item-box .row p.invalid {
+#new-item-container #new-item-box p.invalid {
     color: red !important;
 }
 
-#new-item-container #new-item-box .row input {
-    height: 100%;
-    width: 20em;
+#new-item-box #close-btn {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    color: #e6e6e6;
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+#new-item-box #input-fields {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#new-item-box #input-fields .input-field * {
+    display: inline-block;
+}
+
+#new-item-box #input-fields .input-field p {
+    font-family: "Roboto";
+    color: white;
+    font-size: 1.2rem;
+}
+
+#new-item-container #new-item-box input {
+    height: 1.75em;
+    /* width: 50em; */
+    /* max-width: 75%; */
     background-color: #333333;
     border-radius: 8px;
     border: none;
@@ -167,46 +162,9 @@ header h2 {
     padding: 0 0 0 10px;
 }
 
-#new-item-container #new-item-box #close-btn {
-    position: absolute;
-    top: 5px;
-    left: 15px;
-    font-size: 3rem;
-    color: #e6e6e6;
-    cursor: pointer;
-}
-
-#new-item-container #new-item-box #part-description {
-    width: 80%;
-    height: 60%;
-    border-radius: 8px;
-    max-height: 80%;
-    background-color: #333333;
-    margin: 0.75em 0 0 0;
-    color: white;
-    font-family: sans-serif;
-    padding: 2em 0 0 1em;
-}
-
-#new-item-container #new-item-box #part-description h1 {
-    font-weight: 600;
-    font-size: 2rem;
-    margin: 0;
-}
-
-#new-item-container #new-item-box #part-description h3 {
-    margin: 0.25em 0 0 0;
-    font-weight: 200;
-}
-
-#new-item-container #new-item-box #part-description p {
-    margin: 3em 0 0 0;
-    font-size: 1.1rem;
-}
-
 #new-item-container #new-item-box #save-btn {
-    margin: 0.75em 0 0 0;
-    width: 83%;
+    margin: 0.75em 0 1em 0;
+    width: 50%;
     height: 2.5em;
     max-height: 2.5em;
     background-color: #333333;
@@ -229,6 +187,61 @@ header h2 {
     opacity: 50%;
     background-color: #444444;
     cursor: default !important;
+}
+
+#new-item-box #location-selection {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#new-item-box #location-selection .shelf {
+    height: 100%;
+    width: 20%;
+}
+
+#new-item-box #location-selection .shelf p {
+    color: white;
+    text-align: center;
+    font-family: "Roboto";
+    font-size: 1.2rem;
+    margin-bottom: 0.25em;
+}
+
+#new-item-box #location-selection .shelf .l1, .l2, .l3, .l4 {
+    height: 20%;
+    width: 100%;
+    background-color: #333333;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: "Roboto";
+}
+
+#new-item-box #location-selection .shelf .l1::before { content: 'Level 1'; }
+#new-item-box #location-selection .shelf .l2::before { content: 'Level 2'; }
+#new-item-box #location-selection .shelf .l3::before { content: 'Level 3'; }
+#new-item-box #location-selection .shelf .l4::before { content: 'Level 4'; }
+
+#new-item-box #location-selection .shelf .l4 {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+#new-item-box #location-selection .shelf .l1 {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+#new-item-box #location-selection .shelf .l1:hover, .l2:hover, .l3:hover, .l4:hover {
+    background-color: #007BFF;
+}
+
+#new-item-box #location-selection .shelf .l1.selected, .l2.selected, .l3.selected, .l4.selected {
+    background-color: #007BFF;
 }
 
 main {
