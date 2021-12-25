@@ -43,6 +43,10 @@ for line in indexContents:
         f.close()
 
         for line in lineContent:
+            if(line.strip() == "const RELEASE_MODE = false;"):
+                jsContent += "const RELEASE_MODE = true;"
+                continue
+
             jsContent += line
 
         jsContent += "\n"

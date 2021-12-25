@@ -4,12 +4,11 @@ class InventoryItem {
         this.barcode = barcode;
         this.name = name;
         this.sku = sku;
+        this.location = "1-1";
         this.quantity = 1;
     }
 
 }
-
-var InventoryPool = [];
 
 class Inventory {
 
@@ -53,6 +52,8 @@ class Inventory {
 
     static SyncInventory = function() {
         // TODO: Push Inventory Pool
+        if(RELEASE_MODE)
+            Database.CommitInventoryData(this.inventoryPool);
 
         const tableBody = document.querySelector("main table tbody");
 
@@ -65,12 +66,22 @@ class Inventory {
             <td>${inventoryItem.name}</td>
             <td>${inventoryItem.barcode}</td>
             <td>${inventoryItem.sku}</td>
-            <td>1-3</td>
+            <td>${inventoryItem.location}</td>
             <td>${inventoryItem.quantity}</td>
             </tr>`;
         }
     
         tableBody.innerHTML = html;
+    }
+
+    static PullInventory = function() {
+        if(RELEASE_MODE) {
+
+            let inventoryData = Database.PullInventoryData();
+
+            // TODO: Set the inventory data to the data pool
+
+        }
     }
 
     static ValidateNewPartInfoSubmitButton = function() {
