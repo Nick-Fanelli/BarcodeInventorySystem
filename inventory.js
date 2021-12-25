@@ -1,10 +1,10 @@
 class InventoryItem {
 
-    constructor(barcode, name, sku) {
+    constructor(barcode, name, location, sku) {
         this.barcode = barcode;
         this.name = name;
         this.sku = sku;
-        this.location = "1-1";
+        this.location = location;
         this.quantity = 1;
     }
 
@@ -19,6 +19,8 @@ class Inventory {
     static PartSKULabel = document.querySelector("#new-item-container #new-item-box #part-sku-label");
     static ExitButton = document.querySelector("#new-item-container #new-item-box #close-btn");
     static SubmitButton = document.querySelector("#new-item-container #new-item-box #save-btn");
+
+    static ShelfButtons = null;
 
     static inventoryPool = [];
 
@@ -82,7 +84,17 @@ class Inventory {
     }
 
     static ValidateNewPartInfoSubmitButton = function() {
-        this.SubmitButton.disabled = !(this.PartNameField.value.trim() != "" && this.SkuInputField.value.trim() != "");
+
+        let isLocationSelected = false;
+
+        this.ShelfButtons.forEach((element) => {
+            if(element.classList.contains("selected")) {
+                isLocationSelected = true;
+                return;
+            }
+        });
+
+        this.SubmitButton.disabled = !(this.PartNameField.value.trim() != "" && this.SkuInputField.value.trim() != "" && isLocationSelected);
     }
 
     static OnSKUFieldChange = function(currentValue) {
@@ -131,7 +143,35 @@ class Inventory {
 
         console.log("Submitting Part Information");
 
-        this.funcCallback(new InventoryItem(this.#currentBarcode, this.PartNameField.value, this.SkuInputField.value));
+        let shelfNumber, shelfLevel;
+
+        this.ShelfButtons.forEach((element) => {
+            if(element.classList.contains("selected")) {
+
+                // Determine Shelf Level
+                if(element.classList.contains("shelf-level-1"))
+                    shelfLevel = 1;
+                else if(element.classList.contains("shelf-level-2"))
+                    shelfLevel = 2;
+                else if(element.classList.contains("shelf-level-3"))
+                    shelfLevel = 3;
+                else
+                    shelfLevel = 4;
+                
+                let id = element.parentElement.id;
+
+                if(id == "shelf-1")
+                    shelfNumber = 1;
+                else if(id == "shelf-2")
+                    shelfNumber = 2;
+                else   
+                    shelfNumber = 3;
+
+                return;
+            }
+        });
+
+        this.funcCallback(new InventoryItem(this.#currentBarcode, this.PartNameField.value, shelfNumber + "-" + shelfLevel, this.SkuInputField.value));
         this.CloseNewPartInformationWindow();
     }
 
@@ -206,7 +246,31 @@ class Inventory {
         }
     
     }
+
+    static BindShelfCallbacks = function() {
+        this.ShelfButtons = document.querySelectorAll("#location-selection div.shelf-level");
+
+        this.ShelfButtons.forEach(element => {
+            element.addEventListener("click", (event) => {
+                let button = event.target;
+                let isSelected = button.classList.contains("selected");
+
+                this.ShelfButtons.forEach((element) => {
+                    element.classList.remove("selected");
+                });
+
+                if(!isSelected)
+                    button.classList.add("selected");
+                else
+                    button.classList.remove("selected");
+
+                this.ValidateNewPartInfoSubmitButton();
+            });
+        });
+    }
 }
+
+Inventory.BindShelfCallbacks();
 
 InputManager.EscapeKeyCallbacks.push(function() {
     Inventory.CloseNewPartInformationWindow();
