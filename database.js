@@ -9,8 +9,12 @@ class Database {
     }
 
     // Pull the inventory data
-    static PullInventoryData = function() {
+    static PullInventoryData = function(callback) {
         console.log("Backend Call: Pulling Inventory Data");
-    }   
+
+        google.script.run.withSuccessHandler(function(result) {
+            callback(result);
+        }).BACKENDPullInventoryData();
+    }
 
 }

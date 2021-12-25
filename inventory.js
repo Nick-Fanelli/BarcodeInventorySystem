@@ -1,11 +1,11 @@
 class InventoryItem {
 
-    constructor(barcode, name, location, sku) {
+    constructor(barcode, name, location, sku, quantity) {
         this.barcode = barcode;
         this.name = name;
         this.sku = sku;
         this.location = location;
-        this.quantity = 1;
+        this.quantity = quantity;
     }
 
 }
@@ -50,7 +50,6 @@ class Inventory {
     }
 
     static SyncInventory = function() {
-        // TODO: Push Inventory Pool
         if(RELEASE_MODE)
             Database.CommitInventoryData(this.inventoryPool);
 
@@ -75,11 +74,15 @@ class Inventory {
 
     static PullInventory = function() {
         if(RELEASE_MODE) {
+            this.inventoryPool = [];
 
-            let inventoryData = Database.PullInventoryData();
-
-            // TODO: Set the inventory data to the data pool
-
+            Database.PullInventoryData((jsonData) => {
+                jsonData.forEach((obj) => {
+                    this.inventoryPool.push(new InventoryItem(obj["barcode"], obj["name"], obj["location"], obj["SKU"], obj["quantity"]));
+                });
+    
+                this.SyncInventory(); 
+            });
         }
     }
 
@@ -171,7 +174,7 @@ class Inventory {
             }
         });
 
-        this.funcCallback(new InventoryItem(this.#currentBarcode, this.PartNameField.value, shelfNumber + "-" + shelfLevel, this.SkuInputField.value));
+        this.funcCallback(new InventoryItem(this.#currentBarcode, this.PartNameField.value, shelfNumber + "-" + shelfLevel, this.SkuInputField.value, 1));
         this.CloseNewPartInformationWindow();
     }
 

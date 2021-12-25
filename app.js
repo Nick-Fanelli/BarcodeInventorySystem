@@ -90,6 +90,8 @@ class Application {
     
         InputManager.BindInputCallback(this.HandleBarcodeData);
     
+        let count = 0;
+
         while(true) {
     
             await sleep(1000);
@@ -97,6 +99,13 @@ class Application {
             // Focus the input
             if(this.ShouldFocusInput())
                 InputManager.FocusInput();
+
+            count++;
+
+            if(count >= 4) {
+                Inventory.PullInventory();
+                count = 0;
+            }
         }
     }
     
@@ -124,9 +133,10 @@ class Application {
 function LoadData() {
 
     ReadJsonData("https://nick-fanelli.github.io/BarcodeInventorySystem/serverData/userdata.json", (jsonData) => {
+        Inventory.PullInventory();
         ContextManager.SaveUserData(jsonData);
         Application.StartUpScanner();
-        Application.HandleBarcodeData("1298798374534");
+        // Application.HandleBarcodeData("1298798374534");
     });
 }
 
