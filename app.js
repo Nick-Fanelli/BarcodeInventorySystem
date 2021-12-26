@@ -59,13 +59,13 @@ class Application {
         if(data === "#MODE_ADD#") {
             // Set Mode To Add
             DebugPrint("Setting Inventory Mode To: Add");
-            SetInventoryMode(MODE_ADD);
+            ContextManager.SetInventoryMode(MODE_ADD);
             InputManager.FocusInput();
             return;
         } else if(data === "#MODE_REMOVE#") {
             // Set Mode To Remove
             console.log("Setting Inventory Mode To: Remove");
-            SetInventoryMode(MODE_REMOVE);
+            ContextManager.SetInventoryMode(MODE_REMOVE);
             InputManager.FocusInput();
             return;
         }
@@ -85,11 +85,11 @@ class Application {
 
     static StartUpScanner = async function() {
         this.LogOut();
-        this.LogIn("45563");
+        // this.LogIn("45563");
         InputManager.FocusInput();
 
-        Inventory.inventoryPool.push(new InventoryItem("123", "Name", "3-3", "SKU", "1"));
-        Inventory.SyncInventory();
+        // Inventory.inventoryPool.push(new InventoryItem("123", "Name", "3-3", "SKU", "1"));
+        // Inventory.SyncInventory();
     
         InputManager.BindInputCallback(this.HandleBarcodeData);
     
