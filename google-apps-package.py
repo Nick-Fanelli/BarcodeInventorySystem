@@ -77,3 +77,5 @@ for line in indexContents:
 outFile = open("packaged-index.html", "w+")
 outFile.write(finalFilecontents)
 outFile.close()
+
+print("Successfully Packed Code To: 'packaged-index.html'")
