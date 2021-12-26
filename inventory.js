@@ -83,6 +83,8 @@ class Inventory {
     }
 
     static PullInventory = function() {
+        DebugPrint("Status: Pulling Inventory");
+
         if(RELEASE_MODE) {
             this.inventoryPool = [];
 

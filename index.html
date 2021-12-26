@@ -10,6 +10,7 @@
     <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 
     <!-- Font Awesome -->
+    <meta name="referrer" content="strict-origin" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
@@ -31,7 +32,7 @@
                         <th>Barcode</th>
                         <th>SKU <i class="fa fa-search" id="search-btn" onclick="Application.SearchBySKU();"></i></th>
                         <th>Location</th>
-                        <th>Quantity</th>
+                        <th>Quantity <i style="float: right; margin-right: 1.25em; margin-top: 0.10em; cursor: pointer;" class="fa fa-download" onclick="Inventory.PullInventory();"></i></th>
                     </tr>
                 </thead>
 
