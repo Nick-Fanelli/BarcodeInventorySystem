@@ -73,7 +73,7 @@ class Inventory {
             <td ${permissionLevel >= 2 ? `class="item-name" onclick="Inventory.RenameItem(this);"` : ""}>${inventoryItem.name}</td>
             <td>${inventoryItem.barcode}</td>
             <td ${permissionLevel >= 2 ? `class="item-name" onclick="Inventory.RefactorSKU(this);"` : ""}>${inventoryItem.sku}</td>
-            <td>${inventoryItem.location}</td>
+            <td ${permissionLevel >= 2 ? `class="item-name" onclick="Inventory.RefactorLocation(this);"` : ""}>${inventoryItem.location}</td>
             <td>${inventoryItem.quantity} ${permissionLevel >= 3 ? `<i class="fa fa-trash delete-btn" onclick="Inventory.DeleteItem(this.parentElement.parentElement);"></i>` : ""}</td>
             </tr>`;
            
@@ -139,6 +139,38 @@ class Inventory {
         });
 
         DebugPrint("Successfully Renamed Item In Inventory Pool");
+        this.SyncInventory();
+    }
+
+    static RefactorLocation = function(element) {
+        let parentElement = element.parentElement;
+        let itemBarcode = parentElement.children[1].innerHTML;
+
+        if(itemBarcode == null || itemBarcode == undefined) {
+            PushError("Internal Location Error!");
+            return;
+        }
+
+        this.inventoryPool.forEach((item) => {
+            if(item.barcode === itemBarcode) {
+                let newValue = prompt("Please Enter a New Item Name! Format: SHELF_NUMBER(1-3)-SHELF_LEVEL(1-4)");
+                if(newValue == null)
+                    return;
+
+                const regex = /[1-3]-[1-4]/g;
+                const match = newValue.match(regex);
+
+                if(match == null) {
+                    MessageSystem.PushError("Invalid Shelf Location. Example Location: 2-3. (2 = shelf number), (3 = shelf level)");
+                    return;
+                }
+
+                item.location = newValue;
+                DebugPrint("Successfully Relocated Item In Inventory Pool");
+                return;
+            }
+        });
+
         this.SyncInventory();
     }
 
