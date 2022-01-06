@@ -25,16 +25,12 @@ function sleep(ms) {
 
 class SoundManager {
 
-    static ErrorSound = new Audio("sounds/error-sound.wav");
-    static NeedsAttentionSound = new Audio("sounds/needs-attention-beep.mp3");
-    static AddItemSound = new Audio("sounds/add-item-beep.mp3");
-    static RemoveItemSound = new Audio("sounds/remove-item-beep.mp3");
-
-    static #shouldPlaySound = false;
+    static ErrorSound = new Audio("https://nick-fanelli.github.io/BarcodeInventorySystem/sounds/error-sound.wav");
+    static NeedsAttentionSound = new Audio("https://nick-fanelli.github.io/BarcodeInventorySystem/sounds/needs-attention-beep.mp3");
+    static AddItemSound = new Audio("https://nick-fanelli.github.io/BarcodeInventorySystem/sounds/add-item-beep.mp3");
+    static RemoveItemSound = new Audio("https://nick-fanelli.github.io/BarcodeInventorySystem/sounds/remove-item-beep.mp3");
 
     static PlaySound = function(sound) {
-        if(!this.#shouldPlaySound)
-            return;
         sound.currentTime = 0;
         sound.play(); 
     }
