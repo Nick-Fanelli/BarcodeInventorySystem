@@ -306,6 +306,7 @@ class Inventory {
         this.funcCallback = funcCallback;
 
         this.#currentBarcode = barcode;
+        this.SubmitButton.innerHTML = `Submit [${barcode}]`;
 
         // Set the button callbacks
         this.ExitButton.addEventListener("click", () => {
