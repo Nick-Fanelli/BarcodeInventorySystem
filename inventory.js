@@ -70,10 +70,10 @@ class Inventory {
             let inventoryItem = this.inventoryPool[i];
 
             html += `<tr>
-            <td ${permissionLevel >= 2 ? `class="item-name" onclick="Inventory.RenameItem(this);"` : ""}>${inventoryItem.name}</td>
+            <td ${permissionLevel >= 3 ? `class="item-name" onclick="Inventory.RenameItem(this);"` : ""}>${inventoryItem.name}</td>
             <td>${inventoryItem.barcode}</td>
-            <td ${permissionLevel >= 2 ? `class="item-name" onclick="Inventory.RefactorSKU(this);"` : ""}>${inventoryItem.sku}</td>
-            <td ${permissionLevel >= 2 ? `class="item-name" onclick="Inventory.RefactorLocation(this);"` : ""}>${inventoryItem.location}</td>
+            <td ${permissionLevel >= 3 ? `class="item-name" onclick="Inventory.RefactorSKU(this);"` : ""}>${inventoryItem.sku}</td>
+            <td ${permissionLevel >= 3 ? `class="item-name" onclick="Inventory.RefactorLocation(this);"` : ""}>${inventoryItem.location}</td>
             <td>${inventoryItem.quantity} ${permissionLevel >= 3 ? `<i class="fa fa-trash delete-btn" onclick="Inventory.DeleteItem(this.parentElement.parentElement);"></i>` : ""}</td>
             </tr>`;
            
