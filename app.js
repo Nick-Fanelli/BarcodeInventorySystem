@@ -24,11 +24,9 @@ class Application {
         
         if(user != null) {
     
-            if(ContextManager.GetCurrentContext() == null) {
+            if(ContextManager.GetCurrentContext() == null || ContextManager.GetCurrentContext() != null && ContextManager.GetCurrentContext().user.id != data) {
                 console.log("Logging In");
-                Application.LogIn(data);
-            } else if(ContextManager.GetCurrentContext() != null && ContextManager.GetCurrentContext().user.id != data) {
-                console.log("Logging In!");
+                Inventory.PullInventory();
                 Application.LogIn(data);
             } else {
                 Application.LogOut();
@@ -85,12 +83,12 @@ class Application {
 
     static StartUpScanner = async function() {
         this.LogOut();
-        // this.LogIn("45563"); // TODO: REMOVE
+        this.LogIn("45563"); // TODO: REMOVE
         InputManager.FocusInput();
 
         // TODO: REMOVE
-        // Inventory.inventoryPool.push(new InventoryItem("123", "Name", "3-3", "SKU", "1"));
-        // Inventory.SyncInventory();
+        Inventory.inventoryPool.push(new InventoryItem("123", "Name", "3-3", "SKU", "1"));
+        Inventory.SyncInventory();
     
         InputManager.BindInputCallback(this.HandleBarcodeData);
     
@@ -104,18 +102,20 @@ class Application {
         }
     }
     
-    static SearchBySKU = function() {
-        let sku = prompt("Enter SKU", "Eg. REV-00-0000");
+    static SearchByName = function() {
+        let searchName = prompt("Enter SKU", "Eg. REV-00-0000");
 
-        if(sku != null) {
+        if(searchName != null) {
 
-            let item = Inventory.GetItemBySKU(sku);
+            searchName = searchName.toLowerCase().trim();
 
-            if(item == null) {
-                MessageSystem.PushError(`Could not find item with SKU of: '${sku}'`);
-            } else {
-                // TODO: Scroll to the item
-                console.log("Found Item!");
+            for(let i in Inventory.inventoryPool) {
+                let inventoryItem = Inventory.inventoryPool[i];
+                let itemName = inventoryItem.name.toLowerCase();
+
+                if(itemName.contains(searchName)) {
+                    // Display
+                }
             }
 
         }
